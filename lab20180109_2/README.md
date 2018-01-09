@@ -1,1 +1,1 @@
-The goal is to create a layout that looks something like [reference-form.png](this).
+The goal is to create a layout that looks something like [this](reference-form.png).

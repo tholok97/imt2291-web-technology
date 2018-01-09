@@ -1,14 +1,32 @@
-*       { width: 100%; height: 100%; }
-header  { background-color: green;  grid-area: header;}
-article { background-color: yellow; grid-area: article;}
-aside   { background-color: orange; grid-area: aside;}
-nav     { background-color: blue;   grid-area: nav;}
-footer  { background-color: red;    grid-area: footer;}
+* { 
+    margin: 0px; 
+    padding: 0px; 
+}
 
-body {
-    width: 100vw;
-    height: 100vh;
-    margin: 0px;
+header { 
+    background-color: green;  
+    grid-area: header;
+}
+
+article { 
+    background-color: yellow; 
+    grid-area: article;
+}
+
+aside { 
+    background-color: orange; 
+    grid-area: aside;
+}
+
+nav { 
+    padding-left: 20px;
+    background-color: blue;   
+    grid-area: nav;
+}
+
+footer { 
+    background-color: red;    
+    grid-area: footer;
 }
 
 /* SMALL ONE */
@@ -16,7 +34,7 @@ body {
     body {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 80px 1fr 1fr 1fr 50px;
+        grid-template-rows: 80px auto auto auto 50px;
         grid-template-areas:
             "header"
             "article"
@@ -44,9 +62,12 @@ body {
 /* BIG ONE */
 @media (min-width: 800px) {
     body {
+        width: 780px;
+        margin-left: auto;
+        margin-right: auto;
         display: grid;
         grid-template-columns: 120px 1fr 120px;
-        grid-template-rows: 80px 1fr 1fr 1fr 50px;
+        grid-template-rows: 80px auto auto auto 50px;
         grid-template-areas:
             "header header header"
             "nav article aside"

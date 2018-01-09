@@ -1,0 +1,1 @@
+The goal of this lab was to experiment with CSS Grids to make a responsive webpage. The page has three different layouts: one for devices with screen-width 489 and below, one for screen-widths in the range 480-799 and one for screen-widths 800 and up. Changing the size of the web-browser window should show off the responsiveness of the page.

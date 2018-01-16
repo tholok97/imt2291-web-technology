@@ -1,4 +1,4 @@
-# Laboppgaver
+# Laboppgaver (From the actual task text. Innorwegian)
 
 * Ta utgangspunkt i koden som ligger i katalogen lab_uke3, skriv ut linken til alle bildene som blir returnert fra funksjonskallet i testPinterest.php
 * Installer twig (https://twig.symfony.com/) og bruk twig til å vise alle bildene som returneres fra et søk via Pinterest klassen.

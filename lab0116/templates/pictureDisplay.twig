@@ -2,11 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Pirated pinterest display</title>
+    <style>
+
+.picture {
+    /* WARNING: Don't  think this is widely supported. I'm using chrome */
+    break-inside: avoid-column;     
+}
+
+/* Mobile (deafault. mobile-first) */
+#container {
+    column-count: 2;
+}
+
+/* Medium sized screen */
+@media (min-width: 600px) and (max-width: 899px) {
+    #container {
+        column-count: 3;
+    }
+}
+
+/* Large sized screen */
+@media (min-width: 900px) {
+    #container {
+        column-count: 5;
+    }
+}
+
+    </style>
 </head>
 <body>
-    {% for source in sources %}
-    <image src="{{ source }}"/>
-    {% endfor %}
+    <div id="container">
+
+        <!-- For each imagesource: add an image tag. Let #container deal with 
+             making it look nice -->
+        {% for picture in pictures %}
+        <div class="picture">
+            <a href="{{ picture.pinterestLink }}">
+                <image src="{{ picture.source }}"/>
+            </a>
+            <p>{{ picture.text }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
 </body>
 </html>

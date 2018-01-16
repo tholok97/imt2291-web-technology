@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact form</title>
+    <style>
+
+form {
+    display: grid;
+    grid-template-columns: 40px 100px;
+    grid-template-rows: repeat(4, auto);
+    grid-column-gap: 10px;
+    grid-row-gap: 5px;
+}
+
+label {
+    grid-column: 1;
+}
+
+input {
+    grid-column: 2;
+}
+
+    </style>
+</head>
+<body>
+    <form method="post" action="form_receiver.php">
+        <label for="name">name:</label>
+        <input name="name" type="text"/>
+
+        <label for="email">email:</label>
+        <input name="email" type="email"/>
+
+        <label for="phone">phone:</label>
+        <input name="phone" type="tel"/>
+
+        <input type="submit" value="submit">
+
+    </form>
+</body>
+</html>

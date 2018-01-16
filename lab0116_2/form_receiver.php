@@ -10,8 +10,10 @@ try {
 
     $pdo = new PDO($dsn, $user, $password);
 
-    $statement = $pdo->prepare('INSERT INTO Contacts (name, email, phone) values (?, ?, ?)');
+    $statement = $pdo->prepare('INSERT INTO Contacts (name, email, phone) ' .
+        'values (?, ?, ?)');
 
+    // '' should be NULL (so properly handled by db)
     if ($_POST['name'] == '') $_POST['name'] = NULL;
     if ($_POST['email'] == '') $_POST['email'] = NULL;
     if ($_POST['phone'] == '') $_POST['phone'] = NULL;
@@ -29,6 +31,7 @@ try {
     echo '<h1>Added new contact!</h1>';
 
 } catch (Exception $e) {
+
     // NOTE IKKE Exception DETTE I PRODUKSJON
     echo '<h1>Falied: ' . $e->getMessage() . '</h1>';
 }

@@ -1,3 +1,6 @@
+# ignore vendor directory
+vendor/
+
 # Ignore temp directories
 bin/*
 build/*

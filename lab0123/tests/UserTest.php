@@ -12,7 +12,7 @@ class UserTest extends TestCase {
     protected function setup() {
 
         // setup dbh, make sure database is clean
-        $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=127.0.0.1');
+        $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=localhost');
 
         if ($this->dbh != null) {
             try {
@@ -42,6 +42,47 @@ class UserTest extends TestCase {
         $this->setup();
 
         $user = new User($this->dbh);
+
+        $this->teardown();
+    }
+	
+	public function testLogin() {
+        $this->setup();
+
+        $user = new User($this->dbh);
+		
+		// Add testusers
+		$user->addUser('user1@example.com','Pass1','User1','1234567');
+		$user->addUser('user2@example.com','Pass2','User2','1234567');
+		$user->addUser('user3@example.com','Pass3','User3','1234567');
+		
+		//echo "Users in database:\n";
+		//print_r($user->getAllUsers());
+		
+		// Will fail on email
+		$login1 = $user->login("user4@example.com",'pass4');
+		$this->assertEquals(
+            'fail',
+            $login1['status'],
+			'Did accept wrong email'
+        );
+		
+		// Will fail on password
+		$login2 = $user->login("user1@example.com",'pass4');
+		$this->assertEquals(
+            'fail',
+            $login2['status'],
+			'Did accept wrong password'
+        );
+		
+		// Will not fail
+		$login3 = $user->login("user2@example.com",'Pass2');
+		//print_r($login3);
+		$this->assertEquals(
+            'ok',
+            $login3['status'],
+			'Did not login on correct username/password'
+        );
 
         $this->teardown();
     }

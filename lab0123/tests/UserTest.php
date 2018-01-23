@@ -11,7 +11,8 @@ class UserTest extends TestCase {
 
     protected function setup() {
 
-        $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users;host=127.0.0.1');
+        // setup dbh, make sure database is clean
+        $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=127.0.0.1');
 
         if ($this->dbh != null) {
             try {
@@ -23,12 +24,11 @@ class UserTest extends TestCase {
             $this->fail('DB::getDBConnection returned null..');
         }
 
-        // setup dbh, make sure database is clean
     }
 
     protected function teardown() {
 
-        // drop all rows
+        // drop all rows in users
         try {
             if ($this->dbh != null) {
                 $this->dbh->query('DELETE FROM users');
@@ -40,7 +40,9 @@ class UserTest extends TestCase {
 
     public function testCreateUser() {
         $this->setup();
-        $this->assertEquals(true, true, 'true is true');
+
+        $user = new User($this->dbh);
+
         $this->teardown();
     }
 

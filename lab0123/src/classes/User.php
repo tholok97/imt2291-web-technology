@@ -5,26 +5,23 @@ require_once 'DB.php';
 class User {
     private $uid = -1;
 
-    public function __construct() {
-        if (isset($_POST['login'])) {
-            $this->uid = 1;
-            $_SESSION['uid'] = 1;
-        } else if (isset($_POST['logout'])) {
-            unset($_SESSION['uid']);
-        } else if (isset($_SESSION['uid'])) {
-            $this->uid = 1;
+    private $dbh = null;
+
+    public function __construct($dbh = null) {
+        if ($dbh == null) {
+            $this->dbh = DB::getDBConnection();
+        } else {
+            $this->dbh = $dbh;
         }
     }
 
     public function addUser($email, $password, $name, $phone) {
         
-        $dbh = DB::getDBConnection();
-
         $ret['status'] = 'fail';
         $ret['uid'] = null;
         $ret['errorMessage'] = null;
 
-        if ($dbh == null) {
+        if ($this->dbh == null) {
             $ret['errorMessage'] = 'Couldn\'t establish connection to DB';
             return $ret;
         }
@@ -32,14 +29,14 @@ class User {
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
         try {
-            $statement = $dbh->prepare('INSERT INTO users (email, password, name, phone) VALUES (:email, :password, :name, :phone)');
+            $statement = $this->dbh->prepare('INSERT INTO users (email, password, name, phone) VALUES (:email, :password, :name, :phone)');
             $statement->bindParam(':email', $email);
             $statement->bindParam(':password', $hash);
             $statement->bindParam(':name', $name);
             $statement->bindParam(':phone', $phone);
             $statement->execute();
 
-            $ret['uid'] = $dbh->lastInsertId();
+            $ret['uid'] = $this->dbh->lastInsertId();
 
         } catch (PDOException $ex) {
             $ret['errorMessage'] = 'Couldn\'t add user to DB ('. $ex->getMessage() .')';

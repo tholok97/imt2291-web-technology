@@ -8,6 +8,6 @@ Repo for lab-projects and experiments in the subject IMT2291 - Web Technology at
 * Most of the projects require a web server (that handles PHP) to function properly. Place repo somewhere where your local web server can get to it (htdocs for. ex).
 * Projects that use databases should have a .sql file with the exported database schema to be used for importing.
 
-# Contributors
+# Collaborators
 
 * Yngve Hestem -> lab0123

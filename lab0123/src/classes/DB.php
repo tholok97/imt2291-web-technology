@@ -7,7 +7,8 @@ class DB {
   private $password = '';
   private $dbh = null;
 
-  private function __construct() {
+  private function __construct($dsn) {
+    $this->dsn = $dsn;
     try {
         $this->dbh = new PDO($this->dsn, $this->user, $this->password);
     } catch (PDOException $e) {
@@ -17,9 +18,9 @@ class DB {
     }
   }
 
-  public static function getDBConnection() {
+  public static function getDBConnection($dsn = 'mysql:dbname=www_lab0123_users;host=localhost') {
       if (DB::$db==null) {
-        DB::$db = new self();
+        DB::$db = new self($dsn);
       }
       return DB::$db->dbh;
   }

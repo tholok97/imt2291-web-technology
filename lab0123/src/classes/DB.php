@@ -2,7 +2,7 @@
 
 class DB {
   private static $db=null;
-  private $dsn = 'mysql:dbname=contact_registry;host=127.0.0.1';
+  private $dsn = 'mysql:dbname=www_lab0123_users;host=localhost';
   private $user = 'root';
   private $password = '';
   private $dbh = null;
@@ -11,6 +11,7 @@ class DB {
     try {
         $this->dbh = new PDO($this->dsn, $this->user, $this->password);
     } catch (PDOException $e) {
+
         // NOTE IKKE BRUK DETTE I PRODUKSJON
         echo 'Connection failed: ' . $e->getMessage();
     }

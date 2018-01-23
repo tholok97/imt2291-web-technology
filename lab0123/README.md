@@ -15,4 +15,4 @@ Videre er det naturlig å legge til funksjonalitet for persistent login og teste
 
 # Running tests
 
-Useful alias for running all tests: `alias t='./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/*'`
+Useful alias for running all tests: `alias t='./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/UserTest.php'`

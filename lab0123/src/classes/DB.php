@@ -2,7 +2,7 @@
 
 class DB {
   private static $db=null;
-  private $dsn = 'mysql:dbname=www_lab0123_users;host=localhost';
+  private $dsn = 'mysql:dbname=www_lab0123_users;host=127.0.0.1';
   private $user = 'root';
   private $password = '';
   private $dbh = null;

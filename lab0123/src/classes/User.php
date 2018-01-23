@@ -26,9 +26,17 @@ class User {
             return $ret;
         }
 
+        // autofail if one of params are null
+        if ($email == '' || $password == '' || $name == '' || $phone == '') {
+            $ret['errorMessage'] = 'Bad params received. Can\'t be empty string';
+            return $ret;
+        }
+
+        // make hash of password
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
 		
+        // try and insert into db
         try {
             $statement = $this->dbh->prepare('INSERT INTO users (email, password, name, phone) VALUES (:email, :password, :name, :phone)');
             $statement->bindParam(':email', $email);

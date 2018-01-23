@@ -12,7 +12,7 @@ class UserTest extends TestCase {
     protected function setup() {
 
         // setup dbh, make sure database is clean
-        $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=localhost');
+        $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=127.0.0.1');
 
         if ($this->dbh != null) {
             try {
@@ -42,6 +42,47 @@ class UserTest extends TestCase {
         $this->setup();
 
         $user = new User($this->dbh);
+
+        // assert that bad params fail
+
+        $badadd = $user->addUser('', 'test', 'test', 'test');
+        $this->assertEquals(
+            'fail',
+            $badadd['status'],
+            'Bad params should fail'
+        );
+
+        $badadd = $user->addUser('test', '', 'test', 'test');
+        $this->assertEquals(
+            'fail',
+            $badadd['status'],
+            'Bad params should fail'
+        );
+
+        $badadd = $user->addUser('test', 'test', '', 'test');
+        $this->assertEquals(
+            'fail',
+            $badadd['status'],
+            'Bad params should fail'
+        );
+
+
+        $badadd = $user->addUser('test', 'test', 'test', '');
+        $this->assertEquals(
+            'fail',
+            $badadd['status'],
+            'Bad params should fail'
+        );
+
+
+        // assert that basic add works
+        $status = $user->addUser('test', 'test', 'test', 'test');
+        $stmt = $this->dbh->query('SELECT * FROM users');
+        $this->assertEquals(
+            1,
+            $stmt->rowCount(),
+            'Number of rows in users should be 1 after insertion'
+        );
 
         $this->teardown();
     }

@@ -4,6 +4,7 @@ vendor/
 # Ignore temp directories
 bin/*
 build/*
+vendor/
 
 # Ignore any build-files still roaming around
 *.exe

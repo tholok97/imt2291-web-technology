@@ -9,6 +9,10 @@ $ret = $user->addUser("e@e.com", "password", "Thomas", "234234");
 
 print_r($ret);
 
+$ret = $user->deleteUser(18);
+
+print_r($ret);
+
 ?>
 <form id="login" method="POST" action="index.php">
   <input type="hidden" name="login" value="1"><!-- Must have a field other than the button for Mink -->

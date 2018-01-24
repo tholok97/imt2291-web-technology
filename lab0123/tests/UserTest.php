@@ -128,4 +128,24 @@ class UserTest extends TestCase {
         $this->teardown();
     }
 
+    public function testDeleteUser() {
+        $this->setup();
+
+        $user = new User($this->dbh);
+
+        // add testuser. store uid
+		$ret = $user->addUser('user1@example.com','Pass1','User1','1234567');
+        $uid = $ret['uid'];
+
+        // should succeed
+        $ret = $user->deleteUser($uid);
+        $this->assertEquals(
+            'ok',
+            $ret['status'],
+            'Deleting newly inserted user with id '.$uid.' should not fail'
+        );
+
+        $this->teardown();
+    }
+
 }

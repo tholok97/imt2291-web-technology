@@ -19,8 +19,8 @@ class UserTest extends TestCase {
             $this->fail('DB::getDBConnection returned null..');
         }
 
-        // create table in database
-        $stmt = $this->dbh->query(
+        // create table in database (fail if couldn't do so)
+        if (!$this->dbh->query(
             'CREATE TABLE `users` (
               `id` int(11) NOT NULL,
               `email` varchar(255) NOT NULL,
@@ -28,22 +28,22 @@ class UserTest extends TestCase {
               `name` varchar(255) NOT NULL,
               `phone` varchar(30) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
-        );
+        )) {
 
-        print_r($stmt);
-
-        if ($stmt) {
             $this->fail('Coudn\'t create table in setup stage of testing');
         }
+
         
     }
 
     protected function tearDown() {
 
-        // drop all rows in users
+        // drop all rows in users (fail if couldn't do so)
         try {
             if ($this->dbh != null) {
-                $this->dbh->query('DROP TABLE users');
+                if (!$this->dbh->query('DROP TABLE users')) {
+                    $this->fail('Couldn\'t teardown db. Query didn\'t succeed');
+                }
             }
         } catch (PDOException $ex) {
             $this->fail('Couldn\'t teardown db ('. $ex->getMessage() .')');

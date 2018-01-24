@@ -13,6 +13,11 @@
 
 Videre er det naturlig å legge til funksjonalitet for persistent login og teste dette, både på unit test nivå og via en nettside (integrasjonstesting.) Dette vil inngå som en del av det første prosjektet.
 
+# Running project
+
+* Depends on PHP and MySQL. An export of the database schema is indcluded.
+* Run `composer install` to get dependencies installed
+
 # Running tests
 
 Useful alias for running all tests: `alias t='./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/UserTest.php'`

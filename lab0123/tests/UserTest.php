@@ -14,16 +14,28 @@ class UserTest extends TestCase {
         // setup dbh, make sure database is clean
         $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=127.0.0.1');
 
-        if ($this->dbh != null) {
-            try {
-                $this->dbh->query('DELETE FROM users');
-            } catch (PDOException $ex) {
-                $this->fail('Couldn\'t setup db ('. $ex->getMessage() .')');
-            }
-        } else {
+        // check if we actually got a connection
+        if ($this->dbh == null) {
             $this->fail('DB::getDBConnection returned null..');
         }
 
+        // create table in database
+        $stmt = $this->dbh->query(
+            'CREATE TABLE `users` (
+              `id` int(11) NOT NULL,
+              `email` varchar(255) NOT NULL,
+              `password` varchar(255) NOT NULL,
+              `name` varchar(255) NOT NULL,
+              `phone` varchar(30) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
+        );
+
+        print_r($stmt);
+
+        if ($stmt) {
+            $this->fail('Coudn\'t create table in setup stage of testing');
+        }
+        
     }
 
     protected function teardown() {
@@ -31,7 +43,7 @@ class UserTest extends TestCase {
         // drop all rows in users
         try {
             if ($this->dbh != null) {
-                $this->dbh->query('DELETE FROM users');
+                $this->dbh->query('DROP TABLE users');
             }
         } catch (PDOException $ex) {
             $this->fail('Couldn\'t teardown db ('. $ex->getMessage() .')');

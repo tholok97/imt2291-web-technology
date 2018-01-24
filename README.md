@@ -1,6 +1,6 @@
 # Introduction
 
-Repo for lab-projects and experiments in the subject IMT2291 - Web Technology at NTNU in Gjøvik.
+Repo for lab-projects and experiments I do in the subject IMT2291 - Web Technology at NTNU in Gjøvik.
 
 # Notes on running
 

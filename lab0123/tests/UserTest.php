@@ -9,7 +9,7 @@ class UserTest extends TestCase {
 
     private $dbh = null;
 
-    protected function setup() {
+    protected function setUp() {
 
         // setup dbh, make sure database is clean
         $this->dbh = DB::getDBConnection('mysql:dbname=www_lab0123_users_test;host=127.0.0.1');
@@ -26,7 +26,7 @@ class UserTest extends TestCase {
 
     }
 
-    protected function teardown() {
+    protected function tearDown() {
 
         // drop all rows in users
         try {
@@ -39,7 +39,6 @@ class UserTest extends TestCase {
     }
 
     public function testCreateUser() {
-        $this->setup();
 
         $user = new User($this->dbh);
 
@@ -84,11 +83,9 @@ class UserTest extends TestCase {
             'Number of rows in users should be 1 after insertion'
         );
 
-        $this->teardown();
     }
 	
 	public function testLogin() {
-        $this->setup();
 
         $user = new User($this->dbh);
 		
@@ -125,11 +122,9 @@ class UserTest extends TestCase {
 			'Did not login on correct username/password'
         );
 
-        $this->teardown();
     }
 
     public function testDeleteUser() {
-        $this->setup();
 
         $user = new User($this->dbh);
 
@@ -145,7 +140,6 @@ class UserTest extends TestCase {
             'Deleting newly inserted user with id '.$uid.' should not fail'
         );
 
-        $this->teardown();
     }
 
 }

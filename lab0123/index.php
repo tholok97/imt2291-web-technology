@@ -1,22 +1,20 @@
 <?php
+
 session_start();
 
 require_once "src/classes/User.php";
 
-$user = new User();
+$user = new User(DB::getDBConnection());
 
-$ret = $user->addUser("e@e.com", "password", "Thomas", "234234");
-
-print_r($ret);
-
-$ret = $user->deleteUser(18);
-
-print_r($ret);
+if ($user->failedLogin) {
+    echo 'Wrong username / password';
+}
 
 ?>
 <form id="login" method="POST" action="index.php">
-  <input type="hidden" name="login" value="1"><!-- Must have a field other than the button for Mink -->
-  <input type="submit" value="logg inn">
+    <input type"text" name="username"/>
+    <input type"password" name="password"/>
+    <input type="submit" value="logg inn">
 </form>
 <form id="logout" method="POST" action="index.php">
   <input type="hidden" name="logout" value="1"><!-- Must have a field other than the button for Mink -->
@@ -24,9 +22,9 @@ print_r($ret);
 </form>
 
 <?php
-  if ($user->loggedIn()) {
-    echo "<h1>Hemmelig</h1>";
-  } else {
+if ($user->loggedIn()) {
+    echo '<p>Hello ' . $user->getUid() . '</p>';
+} else {
     echo "<p>Ikke logget inn</p>";
-  }
- ?>
+}
+?>

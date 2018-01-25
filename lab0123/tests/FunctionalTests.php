@@ -10,114 +10,81 @@ use Behat\Mink\Element\NodeElement;
  *
  */
 class FunctionalTests extends TestCase {
-  /* Change this to suite your server setup */
-  protected $baseUrl = "http://localhost/imt2291-v2018/uke4_lab/index.php";
-  protected $session;
+    /* Change this to suite your server setup */
+    protected $baseUrl = "http://localhost/imt2291-web-technology/lab0123/index.php";
+    protected $session;
 
-  /**
-   * Initiates the testing session, this is done before each test.
-   * Starts a new session.
-   */
-  protected function setup() {
-    $driver = new \Behat\Mink\Driver\GoutteDriver();
-    $this->session = new \Behat\Mink\Session($driver);
-    $this->session->start();
-  }
+    /**
+     * Initiates the testing session, this is done before each test.
+     * Starts a new session.
+     */
+    protected function setup() {
+        $driver = new \Behat\Mink\Driver\GoutteDriver();
+        $this->session = new \Behat\Mink\Session($driver);
+        $this->session->start();
+    }
 
-  /**
-   * Check that we get the right initial page (not logged in)
-   */
-  public function testInitialPage() {
-    $this->session->visit($this->baseUrl);
-    $page = $this->session->getPage();
+    /**
+     * Check that we get the right initial page (not logged in)
+     */
+    public function testInitialPage() {
+        $this->session->visit($this->baseUrl);
+        $page = $this->session->getPage();
 
-    $this->assertInstanceOf(
-                           NodeElement::Class,
-                           $page->find('css', 'p'),
-                           'Should have a p tag in this page'
-                         );
-    $this->assertEquals('Ikke logget inn', $page->find('css', 'p')->getText(),
-                        'Wrong text in paragraph');
-  }
+        $this->assertInstanceOf(
+            NodeElement::Class,
+            $page->find('css', 'p'),
+            'Should have a p tag in this page'
+        );
+        $this->assertEquals('Ikke logget inn', $page->find('css', 'p')->getText(),
+            'Wrong text in paragraph');
+    }
 
-  /**
-   * Get default page, submit the login form, check that we get the
-   * logged in page, then reload the page and check that we are still
-   * logged in.
-   */
-  public function testCanLogIn() {
-    $this->session->visit($this->baseUrl);
-    $page = $this->session->getPage();
+    /**
+     * Get default page, submit the login form, check that we get the
+     * logged in page, then reload the page and check that we are still
+     * logged in.
+     * NOTE: depends on there existing a testuser with the username 'testuser'
+     * and the password 'testuser' on the server
+     */
+    public function testCanLogIn() {
+        $this->session->visit($this->baseUrl);
+        $page = $this->session->getPage();
 
-    // Logging in
-    $form = $page->find('css', '#login');
-    $this->assertInstanceOf(NodeElement::Class, $form, 'Unable to locate login form');
-    $form->submit();
+        // log in
+        $form = $page->find('css', '#login');
+        $form->fillField('username', 'testuser');
+        $form->fillField('password', 'testpassword');
 
-    $page = $this->session->getPage();
+        $this->assertInstanceOf(NodeElement::Class, $form, 'Unable to locate login form');
 
-    // Check that we are logged in
-    $this->assertInstanceOf(
-                           NodeElement::Class,
-                           $page->find('css', 'h1'),
-                           'Should have a h1 tag in this page'
-                         );
-    $this->assertEquals('Hemmelig', $page->find('css', 'h1')->getText(),
-                        'The secret message is wrong');
+        $form->submit();
 
-    // Reload the page
-    $this->session->visit($this->baseUrl);
-    $page = $this->session->getPage();
+        // check if we're logged in (should contain a h1)
+        $this->assertInstanceOf(
+            NodeElement::Class,
+            $page->find('css', 'h1'),
+            'page should have a h1 when logged in (is the test user in the db?)'
+        );
 
-    // Check that we are still logged in
-    $this->assertInstanceOf(
-                           NodeElement::Class,
-                           $page->find('css', 'h1'),
-                           'Logged out after reload'
-                         );
-    $this->assertEquals('Hemmelig', $page->find('css', 'h1')->getText(),
-                        'The secret message is wrong after page reload');
-  }
+        // reload page
+        $this->session->visit($this->baseUrl);
+        $page = $this->session->getPage();
 
-  /**
-   * Test that we can log out, also that we stay logged out when
-   * page is reloaded.
-   */
-  public function testCanLogOut() {
-    $this->session->visit($this->baseUrl);
-    $page = $this->session->getPage();
+        // Check that we are still logged in
+        $this->assertInstanceOf(
+            NodeElement::Class,
+            $page->find('css', 'h1'),
+            'Logged out after reload'
+        );
 
-    // Logg in
-    $form = $page->find('css', '#login');
-    $this->assertInstanceOf(NodeElement::Class, $form, 'Unable to locate login form');
-    $form->submit();
+    }
 
-    $page = $this->session->getPage();
-
-    // Logg out
-    $form = $page->find('css', '#logout');
-    $this->assertInstanceOf(NodeElement::Class, $form, 'Unable to locate logout form');
-    $form->submit();
-
-    // Check that we are logged out
-    $this->assertInstanceOf(
-                           NodeElement::Class,
-                           $page->find('css', 'p'),
-                           'Should have a paragraph in this page'
-                         );
-    $this->assertEquals('Ikke logget inn', $page->find('css', 'p')->getText(),
-                        'Wrong text in paragraph after logging out');
-
-    // Relaod the page, should still be logged out
-    $this->session->visit($this->baseUrl);
-    $page = $this->session->getPage();
-
-    $this->assertInstanceOf(
-                           NodeElement::Class,
-                           $page->find('css', 'p'),
-                           'Logging out and reloading yields wrong result'
-                         );
-    $this->assertEquals('Ikke logget inn', $page->find('css', 'p')->getText(),
-                        'Wrong text in paragraph after logging out and reloading page');
-  }
+    /**
+     * Test that we can log out, also that we stay logged out when
+     * page is reloaded.
+     */
+    public function testCanLogOut() {
+        // TBA
+    }
 }

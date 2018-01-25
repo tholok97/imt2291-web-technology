@@ -20,4 +20,6 @@ Videre er det naturlig å legge til funksjonalitet for persistent login og teste
 
 # Running tests
 
-Useful alias for running all tests: `alias t='./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/UserTest.php'`
+* Useful alias for running all tests: `alias t='./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/UserTest.php'`
+* In the functional test you have to specify you own base url to run the test on
+* Test relies on there existing a user with the username 'testuser' and password 'testpassword' in the live database

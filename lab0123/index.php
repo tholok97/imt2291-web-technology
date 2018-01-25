@@ -6,14 +6,16 @@ require_once "src/classes/User.php";
 
 $user = new User(DB::getDBConnection());
 
+$user->addUser('testuser', 'testpassword', 'name', '123');
+
 if ($user->failedLogin) {
     echo 'Wrong username / password';
 }
 
 ?>
 <form id="login" method="POST" action="index.php">
-    <input type"text" name="username"/>
-    <input type"password" name="password"/>
+    <input id='username' type"text" name="username"/>
+    <input id='password' type"password" name="password"/>
     <input type="submit" value="logg inn">
 </form>
 <form id="logout" method="POST" action="index.php">
@@ -23,7 +25,7 @@ if ($user->failedLogin) {
 
 <?php
 if ($user->loggedIn()) {
-    echo '<p>Hello ' . $user->getUid() . '</p>';
+    echo '<h1>Hello ' . $user->getUid() . '</h1>'; // h1 cause test uses it
 } else {
     echo "<p>Ikke logget inn</p>";
 }

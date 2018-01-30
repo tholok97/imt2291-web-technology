@@ -1,10 +1,9 @@
+<!-- handle form -->
 <?php
 
 require_once 'DB.php';
+require_once 'constants.php';
 
-// width and height of thumbnail in db
-$thumbnail_width = 75;
-$thumbnail_height = 75;
 
 // if file was sent -> handle it
 if (isset($_FILES['fileToUpload'])) {
@@ -26,7 +25,7 @@ if (isset($_FILES['fileToUpload'])) {
         // save in db
         try {
 
-            $dbh = DB::getDBConnection('mysql:dbname=www_lab0130_2;host=127.0.0.1'); 
+            $dbh = DB::getDBConnection($database_string); 
 
             $stmt = $dbh->prepare('INSERT INTO thumbnails (name, content, mime) VALUES (:name, :content, :mime)');
 
@@ -81,9 +80,6 @@ function scale ($img, $new_width, $new_height) {
     return $scaledImage;
 }
 
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -100,3 +96,23 @@ function scale ($img, $new_width, $new_height) {
     </form>        
 </body>
 </html>
+
+<!-- show images from db -->
+<?php
+    
+    // get images from db
+    $dbh = DB::getDBConnection($database_string);
+
+    $thumbnails = $dbh->query('SELECT * FROM thumbnails ORDER BY thumbnails.id');
+
+    // list them
+    foreach ($thumbnails as $thumbnail) {
+
+        echo '
+            <div style="border:1px solid black;padding:20px;margin:30px">
+                <h3>'.$thumbnail['name'].'</h3>
+                <img src="getThumbnail.php?id='.$thumbnail['id'].'"/>
+                <a href="getImage.php?id='.$thumbnail['id'].'">Download!</a>
+            </div>
+        ';
+    }

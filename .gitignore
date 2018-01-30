@@ -1,5 +1,6 @@
 # ignore vendor directory
 vendor/
+lab0130_2/uploaded_images/
 
 # Ignore temp directories
 bin/*

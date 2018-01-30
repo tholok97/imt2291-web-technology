@@ -4,4 +4,5 @@ Lag en side hvor brukeren kan laste opp bilder. Bildene skal lagres på disk men
 
 ## Note on running
 
-You need to add a directory `uploaded_images` and give apache the write-permissions to the directory.
+* You need to add a directory `uploaded_images` and give apache the write-permissions to the directory.
+* Keep in mind that the contents of the db needs to match the contents on your disk. If stuff isn't working: check that the ids in the db matches those on file.

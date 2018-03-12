@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script>
+
+// contains json returned from ntnu. Global for convenience
+let jsonStudies = null;
+
+// names of studyplaces to show. Global for convenience
+let studyplacesToShow = [];
+
+// names of all studyplaces. Global for convenience
+let allStudyplaces = [];
+
+// number of checked checkboxes. Global for convenience
+let numChecked = 0;
+
+// insert DOM out of returned json upon finish
+// inserts checkboxes and calls displayStudies to display the appropriate studies
+function reqListener () {
+
+    jsonStudies = JSON.parse(this.responseText);
+
+    // holds studyplaces found in following search
+    studyplaces = [];
+
+    // figure out what studyplaces there are in this dataset
+    for (let i = 0; i < jsonStudies.length; ++i) {
+
+        // if current studyplace not in array, add it
+        let studyplace = jsonStudies[i].locationspretty;
+        if (studyplaces.indexOf(studyplace) === -1) {
+            studyplaces.push(studyplace);
+        }
+
+    }
+
+    // get where to put studyplace checkboxes
+    target = document.getElementById("studyplaceSelection");
+
+    // insert checkbox buttons
+    for (let i = 0; i < studyplaces.length; ++i) {
+        let studyplaceDiv = document.createElement("div");
+        studyplaceDiv.innerHTML = `<input type='checkbox' onclick="checkboxChange(this, '${studyplaces[i]}')"> <label>"${studyplaces[i]}"</label>`
+        target.appendChild(studyplaceDiv);
+    }
+
+    allStudyplaces = studyplaces;
+
+    // initially show all studyplaces
+    studyplacesToShow = studyplaces;
+
+
+    displayStudies();
+}
+
+// return array with value removed
+function removeFromArray(array, value) {
+
+    for (var i = array.length - 1; i >= 0; i--) {
+        if (array[i] == value) {
+            array.splice(i, 1);
+        }
+    }
+
+    return array;
+
+}
+
+// when checkbox changes, push or remove appropriate studyplace from global
+// list of studyplaces to show
+function checkboxChange(checkbox, studyplace) {
+
+    if (checkbox.checked) {
+
+        numChecked += 1;
+
+        // if just turned one, clear first
+        if (numChecked === 1) {
+            studyplacesToShow = [];
+        }
+
+        studyplacesToShow.push(studyplace);
+
+
+    } else {
+        numChecked -= 1;
+
+        // if none selected, show all. otherwise just remove approprate one
+        if (numChecked === 0) {
+            studyplacesToShow = allStudyplaces;
+        } else {
+            studyplacesToShow = removeFromArray(studyplacesToShow, studyplace);
+        }
+
+
+    }
+
+    displayStudies();
+}
+
+// based on jsonStudies and studyplacesToShow, display appropriate studies
+function displayStudies() {
+
+    // clear studies div
+    target = document.getElementById("studies");
+    target.innerHTML = "";
+
+
+    // insert appropriate studies
+    for (let i = 0; i < jsonStudies.length; ++i) {
+        let study = jsonStudies[i];
+
+        // only show studies that are in studyplacesToShow
+        if (studyplacesToShow.indexOf(study.locationspretty) != -1) {
+            let studyDiv = document.createElement("div");
+            studyDiv.innerHTML = `<h3>${study.name}</h3><p>${study.studyLevelName}, ${study.locationspretty}</p>`
+            target.appendChild(studyDiv);
+        }
+    }
+
+}
+
+// get study json from NTNU using php proxy script
+let oReq = new XMLHttpRequest();
+oReq.addEventListener("load", reqListener);
+oReq.open("GET", "proxy.php?p="+encodeURIComponent("https://www.ntnu.no/web/studier/alle?p_p_id=studyprogrammelistportlet_WAR_studyprogrammelistportlet_INSTANCE_Xs4L&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=allStudies&p_p_cacheability=cacheLevelPage&p_p_col_id=column-1&p_p_col_pos=1&p_p_col_count=2"));
+oReq.send();
+
+        </script>
+    </head>
+    <body>
+
+        <!-- where checkboxes for studyplaces will end up -->
+        <div id="studyplaceSelection"></div>
+
+
+        <!-- where list of studies will end up -->
+        <div id="studies"></div>
+
+
+    </body>
+</html>

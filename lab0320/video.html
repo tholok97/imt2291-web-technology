@@ -96,8 +96,9 @@ video.textTracks[0].addEventListener('cuechange', e=>{   // When a cue change ev
 
         // TODO: WIP
 
-
-        let topofcue = document.querySelector(`#subtitles li[data-id="${e.target.activeCues[i].id}"]`).getBoundingClientRect().top;
+		let topofcue = document.querySelector(`#subtitles li[data-id="${e.target.activeCues[i].id}"]`).offsetTop;
+		topofcue -= document.getElementById("subtitles").scrollHeight/4-20;
+        //let topofcue = document.querySelector(`#subtitles li[data-id="${e.target.activeCues[i].id}"]`).getBoundingClientRect().top;
 
         document.getElementById("subtitles").scrollTop = topofcue;
     }

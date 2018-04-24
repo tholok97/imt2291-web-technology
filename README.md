@@ -10,4 +10,4 @@ Repo for lab-projects and experiments I do in the subject IMT2291 - Web Technolo
 
 # Collaborators
 
-* Yngve Hestem -- lab0123
+* Yngve Hestem
